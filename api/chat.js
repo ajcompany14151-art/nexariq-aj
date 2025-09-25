@@ -28,12 +28,16 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'API key not configured' });
     }
 
-    // Initialize Anthropic client with the same headers as your curl command
+    // Initialize Anthropic client with the exact configuration from your curl
     const anthropic = new Anthropic({
       apiKey: process.env.CLAUDE_API_KEY,
+      // Set the default headers to match your curl command
+      defaultHeaders: {
+        'anthropic-version': '2023-06-01'
+      }
     });
 
-    // Make the API call with the exact same parameters as your working curl
+    // Make the API call with the exact same parameters as your curl
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514', // Exact model from your curl
       max_tokens: 1024, // Same as your curl
