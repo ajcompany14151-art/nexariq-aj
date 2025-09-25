@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexariq - AI-Powered Development Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-black: #000000;
+            --primary-blue: #00D4FF;
+            --dark-gray: #1A1A1A;
+            --silver: #C0C0C0;
+            --light-gray: #2A2A2A;
+            --darker-gray: #0F0F0F;
+            --card-bg: #121212;
+            --hover-bg: #1E1E1E;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+            --border-color: #333333;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-black);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--darker-gray);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-blue), #0080FF);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary-blue);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Dashboard Section */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), #0080FF);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-blue);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-tag {
+            background-color: rgba(0, 212, 255, 0.1);
+            color: var(--primary-blue);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .card-action {
+            display: flex;
+            align-items: center;
+            color: var(--primary-blue);
+            font-weight: 500;
+            gap: 0.5rem;
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Agent Section */
+        .agent-section, .editor-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .back-button {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+            border-color: var(--primary-blue);
+        }
+
+        /* Agent Chat Interface */
+        .agent-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 180px);
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .agent-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .agent-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-blue), #0080FF);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .agent-info {
+            flex: 1;
+        }
+
+        .agent-name {
+            font-weight: 600;
+        }
+
+        .agent-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--success);
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            max-width: 80%;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            background-color: var(--dark-gray);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .message.user .message-content {
+            background-color: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .agent-input-container {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .agent-input {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .agent-input input {
+            flex: 1;
+            background-color: var(--darker-gray);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .agent-input input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .send-button {
+            background-color: var(--primary-blue);
+            color: var(--primary-black);
+            border: none;
+            border-radius: 8px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .send-button:hover {
+            background-color: #00A8E0;
+        }
+
+        /* Code Editor Section */
+        .editor-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 180px);
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .editor-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .editor-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .editor-tab {
+            padding: 0.5rem 1rem;
+            background-color: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .editor-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--primary-blue);
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .action-button {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .action-button:hover {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .action-button.primary {
+            background-color: var(--primary-blue);
+            color: var(--primary-black);
+            border-color: var(--primary-blue);
+        }
+
+        .action-button.primary:hover {
+            background-color: #00A8E0;
+        }
+
+        .editor-main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .code-editor {
+            flex: 1;
+            background-color: var(--primary-black);
+            border-right: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .preview-pane {
+            flex: 1;
+            background-color: var(--darker-gray);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-title {
+            font-weight: 500;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .preview-button {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .preview-button:hover {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .preview-content {
+            flex: 1;
+            padding: 1rem;
+            overflow: auto;
+        }
+
+        .preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+            background-color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--darker-gray);
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .editor-main {
+                flex-direction: column;
+            }
+            
+            .code-editor {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                height: 50%;
+            }
+            
+            .preview-pane {
+                height: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">N</div>
+            <div>
+                <div class="logo-text">Nexariq</div>
+                <div class="tagline">AI-Powered Development at the Speed of Thought</div>
+            </div>
+        </div>
+        <nav>
+            <a href="#" onclick="showDashboard(); return false;">Dashboard</a>
+            <a href="#">Projects</a>
+            <a href="#">Templates</a>
+            <a href="#">Documentation</a>
+        </nav>
+        <div class="user-profile">
+            <div class="user-avatar">JD</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="dashboard-section">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">Nexariq Platform</h1>
+                    <p class="section-subtitle">Select a tool to start building with AI</p>
+                </div>
+            </div>
+            
+            <div class="dashboard">
+                <div class="card" id="agent-card" onclick="showAgent()">
+                    <div class="card-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h2 class="card-title">Nexariq Agent</h2>
+                    <p class="card-description">Interact with our AI assistant to generate, debug, and optimize your code through natural conversation.</p>
+                    <div class="card-features">
+                        <span class="feature-tag">Natural Language</span>
+                        <span class="feature-tag">Code Generation</span>
+                        <span class="feature-tag">Debugging</span>
+                        <span class="feature-tag">Optimization</span>
+                    </div>
+                    <div class="card-action">
+                        <span>Launch Agent</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                
+                <div class="card" id="editor-card" onclick="showEditor()">
+                    <div class="card-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h2 class="card-title">Nexariq Code Editor</h2>
+                    <p class="card-description">Write, edit, and preview your code in real-time with our advanced Monaco-powered editor.</p>
+                    <div class="card-features">
+                        <span class="feature-tag">Monaco Editor</span>
+                        <span class="feature-tag">Live Preview</span>
+                        <span class="feature-tag">Multi-language</span>
+                        <span class="feature-tag">Auto-save</span>
+                    </div>
+                    <div class="card-action">
+                        <span>Open Editor</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Agent Section -->
+        <section id="agent-section" class="agent-section">
+            <div class="section-header">
+                <div>
+                    <button class="back-button" onclick="showDashboard()">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back to Dashboard</span>
+                    </button>
+                </div>
+                <div>
+                    <h2 class="section-title">Nexariq Agent</h2>
+                    <p class="section-subtitle">Powered by Claude Sonnet-4 (Lynxa-Pro)</p>
+                </div>
+            </div>
+            
+            <div class="agent-container">
+                <div class="agent-header">
+                    <div class="agent-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="agent-info">
+                        <div class="agent-name">Lynxa-Pro Assistant</div>
+                        <div class="agent-status">
+                            <span class="status-indicator"></span>
+                            <span>Online</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-container" id="chat-container">
+                    <div class="message">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>Hello! I'm your Nexariq AI assistant. I can help you with code generation, debugging, optimization, and answering your technical questions. What would you like to work on today?</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="agent-input-container">
+                    <div class="agent-input">
+                        <input type="text" id="agent-input" placeholder="Type your message here..." onkeypress="handleAgentKeyPress(event)">
+                        <button class="send-button" onclick="handleSendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Editor Section -->
+        <section id="editor-section" class="editor-section">
+            <div class="section-header">
+                <div>
+                    <button class="back-button" onclick="showDashboard()">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back to Dashboard</span>
+                    </button>
+                </div>
+                <div>
+                    <h2 class="section-title">Nexariq Code Editor</h2>
+                    <p class="section-subtitle">Powered by Monaco Editor</p>
+                </div>
+            </div>
+            
+            <div class="editor-container">
+                <div class="editor-header">
+                    <div class="editor-tabs">
+                        <button class="editor-tab active" onclick="switchLanguage('html')">HTML</button>
+                        <button class="editor-tab" onclick="switchLanguage('css')">CSS</button>
+                        <button class="editor-tab" onclick="switchLanguage('javascript')">JavaScript</button>
+                        <button class="editor-tab" onclick="switchLanguage('react')">React</button>
+                    </div>
+                    <div class="editor-actions">
+                        <button class="action-button">
+                            <i class="fas fa-save"></i>
+                            <span>Save</span>
+                        </button>
+                        <button class="action-button">
+                            <i class="fas fa-folder-open"></i>
+                            <span>Open</span>
+                        </button>
+                        <button class="action-button primary">
+                            <i class="fas fa-rocket"></i>
+                            <span>Publish</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="editor-main">
+                    <div class="code-editor" id="code-editor">
+                        <!-- Monaco Editor will be initialized here -->
+                    </div>
+                    <div class="preview-pane">
+                        <div class="preview-header">
+                            <div class="preview-title">Live Preview</div>
+                            <div class="preview-actions">
+                                <button class="preview-button" onclick="updatePreview()">
+                                    <i class="fas fa-sync-alt"></i>
+                                    <span>Refresh</span>
+                                </button>
+                                <button class="preview-button" onclick="toggleFullscreen()">
+                                    <i class="fas fa-expand"></i>
+                                    <span>Full Screen</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="preview-content">
+                            <iframe class="preview-iframe" id="preview-iframe"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 Nexariq by AJ STUDIOZ. All rights reserved.</p>
+        <p>Democratizing web development through intelligent, agentic AI assistance.</p>
+    </footer>
+
+    <!-- Monaco Editor Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.js"></script>
+    
+    <script>
+        // Navigation between sections
+        function showDashboard() {
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('agent-section').style.display = 'none';
+            document.getElementById('editor-section').style.display = 'none';
+        }
+        
+        function showAgent() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('agent-section').style.display = 'block';
+            document.getElementById('editor-section').style.display = 'none';
+        }
+        
+        function showEditor() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('agent-section').style.display = 'none';
+            document.getElementById('editor-section').style.display = 'block';
+            
+            // Initialize Monaco Editor if not already initialized
+            if (!window.editorInitialized) {
+                initializeMonacoEditor();
+                window.editorInitialized = true;
+            }
+        }
+        
+        // Agent Chat Functionality
+        function addMessage(content, isUser = false) {
+            const chatContainer = document.getElementById('chat-container');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            if (isUser) {
+                messageDiv.classList.add('user');
+            }
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.classList.add('message-avatar');
+            avatarDiv.innerHTML = isUser ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('message-content');
+            contentDiv.innerHTML = `<p>${content}</p>`;
+            
+            messageDiv.appendChild(avatarDiv);
+            messageDiv.appendChild(contentDiv);
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function handleSendMessage() {
+            const agentInput = document.getElementById('agent-input');
+            const message = agentInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                agentInput.value = '';
+                
+                // Simulate AI response after a short delay
+                setTimeout(() => {
+                    const responses = [
+                        "I can help you create a responsive navigation bar. Would you like me to generate the HTML, CSS, and JavaScript for it?",
+                        "To optimize your React components, consider using React.memo for components that render often with the same props. This will prevent unnecessary re-renders.",
+                        "I notice there's a syntax error in your JavaScript code. On line 15, you're missing a closing parenthesis. Would you like me to fix it?",
+                        "Here's a simple CSS animation you can use to create a fade-in effect for your elements. Just add this to your stylesheet.",
+                        "For better performance, I recommend using the useCallback hook for functions that are passed as props to child components."
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage(randomResponse);
+                }, 1000);
+            }
+        }
+        
+        function handleAgentKeyPress(event) {
+            if (event.key === 'Enter') {
+                handleSendMessage();
+            }
+        }
+        
+        // Monaco Editor Initialization
+        let editor;
+        
+        function initializeMonacoEditor() {
+            require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
+            require(['vs/editor/editor.main'], function () {
+                // Define a custom theme
+                monaco.editor.defineTheme('nexariq-dark', {
+                    base: 'vs-dark',
+                    inherit: true,
+                    rules: [],
+                    colors: {
+                        'editor.background': '#000000',
+                        'editor.foreground': '#FFFFFF',
+                    }
+                });
+                
+                // Initialize the editor
+                editor = monaco.editor.create(document.getElementById('code-editor'), {
+                    value: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Nexariq Project</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #00D4FF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Nexariq</h1>
+        <p>Edit this code to see changes in real-time!</p>
+    </div>
+</body>
+</html>`,
+                    language: 'html',
+                    theme: 'nexariq-dark',
+                    automaticLayout: true,
+                    minimap: { enabled: true },
+                    fontSize: 14,
+                    wordWrap: 'on',
+                    scrollBeyondLastLine: false
+                });
+                
+                // Update preview when code changes
+                editor.onDidChangeModelContent(updatePreview);
+                
+                // Initial preview update
+                updatePreview();
+            });
+        }
+        
+        // Update preview iframe
+        function updatePreview() {
+            if (editor) {
+                const code = editor.getValue();
+                const previewFrame = document.getElementById('preview-iframe');
+                previewFrame.srcdoc = code;
+            }
+        }
+        
+        // Editor tab switching
+        function switchLanguage(lang) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.editor-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Change editor language based on tab
+            if (editor) {
+                monaco.editor.setModelLanguage(editor.getModel(), lang);
+            }
+        }
+        
+        // Toggle fullscreen for preview
+        function toggleFullscreen() {
+            const previewFrame = document.getElementById('preview-iframe');
+            if (previewFrame.requestFullscreen) {
+                previewFrame.requestFullscreen();
+            } else if (previewFrame.webkitRequestFullscreen) {
+                previewFrame.webkitRequestFullscreen();
+            } else if (previewFrame.mozRequestFullScreen) {
+                previewFrame.mozRequestFullScreen();
+            }
+        }
+    </script>
+</body>
+</html>
