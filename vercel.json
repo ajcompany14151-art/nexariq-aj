@@ -2,15 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "agent.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "assets/**",
+      "src": "public/**/*",
       "use": "@vercel/static"
     },
     {
@@ -20,26 +12,22 @@
   ],
   "routes": [
     {
+      "src": "/",
+      "dest": "/public/index.html"
+    },
+    {
+      "src": "/agent",
+      "dest": "/public/agent.html"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/chat.js",
-      "methods": ["POST"],
+      "methods": ["POST", "OPTIONS"],
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
       }
-    },
-    {
-      "src": "/agent.html",
-      "dest": "/agent.html"
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
     }
   ],
   "functions": {
