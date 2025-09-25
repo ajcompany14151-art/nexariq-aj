@@ -1,11 +1,27 @@
 // api/chat.js
-export default async function handler(req, res) {
+const fetch = require('node-fetch');
+
+module.exports = async (req, res) => {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
     const { message } = req.body;
+    
+    if (!message) {
+      return res.status(400).json({ error: 'Message is required' });
+    }
     
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -26,7 +42,10 @@ export default async function handler(req, res) {
     if (!response.ok) {
       const errorData = await response.json();
       console.error('Anthropic API error:', errorData);
-      return res.status(500).json({ error: 'Failed to get response from AI' });
+      return res.status(500).json({ 
+        error: 'Failed to get response from AI',
+        details: errorData.error?.message || 'Unknown error'
+      });
     }
 
     const data = await response.json();
@@ -35,6 +54,9 @@ export default async function handler(req, res) {
     return res.status(200).json({ response: aiResponse });
   } catch (error) {
     console.error('Error in chat API:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ 
+      error: 'Internal server error',
+      details: error.message 
+    });
   }
-}
+};
