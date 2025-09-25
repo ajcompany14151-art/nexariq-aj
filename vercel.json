@@ -2,44 +2,35 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.html",
+      "src": "public/**",
       "use": "@vercel/static"
     },
     {
-      "src": "api/**/*.js",
+      "src": "api/chat.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "dest": "/api/chat.js",
+      "methods": ["POST"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST",
+        "Access-Control-Allow-Headers": "Content-Type"
+      }
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/index.html"
     }
   ],
   "env": {
-    "ANTHROPIC_API_KEY": "@anthropic_api_key"
-  },
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
-      ]
-    }
-  ]
+    "CLAUDE_API_KEY": ""
+  }
 }
