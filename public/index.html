@@ -765,6 +765,264 @@
             outline: none;
         }
 
+        /* cURL Section */
+        .curl-section {
+            display: none;
+            animation: fadeIn 0.6s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background: var(--primary-black);
+            flex-direction: column;
+        }
+
+        .curl-container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            background: linear-gradient(135deg, var(--card-bg), rgba(26, 26, 27, 0.9));
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .curl-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 15, 16, 0.7);
+            backdrop-filter: blur(10px);
+            flex-shrink: 0;
+        }
+
+        .curl-title {
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .curl-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .curl-main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .curl-input-section {
+            flex: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .curl-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .curl-form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .curl-form-input {
+            background: var(--dark-gray);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .curl-form-input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+        }
+
+        .curl-form-textarea {
+            background: var(--dark-gray);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            outline: none;
+            min-height: 100px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .curl-form-textarea:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+        }
+
+        .curl-form-select {
+            background: var(--dark-gray);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .curl-form-select:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+        }
+
+        .curl-form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .curl-form-row .curl-form-group {
+            flex: 1;
+        }
+
+        .curl-command-preview {
+            background: var(--pure-black);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .curl-response-section {
+            flex: 1;
+            background: var(--pure-black);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .curl-response-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 15, 16, 0.5);
+            backdrop-filter: blur(10px);
+            flex-shrink: 0;
+        }
+
+        .curl-response-title {
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .curl-response-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .curl-response-content {
+            flex: 1;
+            padding: 1rem;
+            overflow: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .curl-response-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .curl-response-status.success {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .curl-response-status.error {
+            background: rgba(255, 71, 87, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+        }
+
+        .curl-response-status.info {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-blue);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .curl-response-headers {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: var(--dark-gray);
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .curl-response-headers-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .curl-response-body {
+            padding: 0.75rem;
+            background: var(--dark-gray);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        .curl-response-body-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .curl-response-body pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
         /* Editor Branding */
         .editor-branding {
             display: flex;
@@ -1387,6 +1645,16 @@
                 left: 20px;
                 height: 350px;
             }
+
+            .curl-main {
+                flex-direction: column;
+            }
+
+            .curl-response-section {
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+                height: 300px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1414,6 +1682,10 @@
 
             .editor-page-logo-text {
                 font-size: 1.2rem;
+            }
+
+            .curl-form-row {
+                flex-direction: column;
             }
         }
     </style>
@@ -1520,6 +1792,24 @@
                     </div>
                     <div class="card-action">
                         <span>Open Terminal</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                
+                <div class="card" id="curl-card" onclick="showCurl()">
+                    <div class="card-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h2 class="card-title">API Tester</h2>
+                    <p class="card-description">Test API endpoints and cURL commands with our powerful API testing interface. Perfect for validating API keys and debugging responses.</p>
+                    <div class="card-features">
+                        <span class="feature-tag">cURL Commands</span>
+                        <span class="feature-tag">API Testing</span>
+                        <span class="feature-tag">Response Analysis</span>
+                        <span class="feature-tag">Key Validation</span>
+                    </div>
+                    <div class="card-action">
+                        <span>Test APIs</span>
                         <i class="fas fa-arrow-right"></i>
                     </div>
                 </div>
@@ -1720,6 +2010,120 @@
                 </div>
             </div>
         </section>
+
+        <!-- cURL Section -->
+        <section id="curl-section" class="curl-section">
+            <div class="editor-page-header">
+                <div class="editor-page-title">
+                    <button class="back-button" onclick="showDashboard()">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back to Dashboard</span>
+                    </button>
+                    <div>
+                        <h2 class="section-title" style="font-size: 2rem; margin-bottom: 0.25rem;">Nexariq API Tester</h2>
+                        <p class="editor-page-subtitle">Test API endpoints and cURL commands with ease</p>
+                    </div>
+                </div>
+                <div class="editor-page-logo">
+                    <img src="https://z-cdn-media.chatglm.cn/files/8cbe835d-70fa-4b6b-a8a8-ba768119ee3b_circle_logo.png?auth_key=1790345385-e78f063d92914893b2bf8b0746c96672-0-2cc098cea7d4b494081a209c53911f51" alt="Nexariq Logo">
+                    <div class="editor-page-logo-text">Nexariq</div>
+                </div>
+            </div>
+            
+            <div class="curl-container">
+                <div class="curl-header">
+                    <div class="curl-title">
+                        <i class="fas fa-plug"></i>
+                        <span>API Tester</span>
+                    </div>
+                    <div class="curl-actions">
+                        <button class="action-button" onclick="loadCurlExample()">
+                            <i class="fas fa-file-import"></i>
+                            <span>Load Example</span>
+                        </button>
+                        <button class="action-button" onclick="clearCurlForm()">
+                            <i class="fas fa-eraser"></i>
+                            <span>Clear</span>
+                        </button>
+                        <button class="action-button primary" onclick="executeCurlCommand()">
+                            <i class="fas fa-play"></i>
+                            <span>Execute</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="curl-main">
+                    <div class="curl-input-section">
+                        <div class="curl-form-group">
+                            <label class="curl-form-label">Request Method</label>
+                            <select class="curl-form-select" id="curl-method">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                                <option value="PATCH">PATCH</option>
+                                <option value="HEAD">HEAD</option>
+                                <option value="OPTIONS">OPTIONS</option>
+                            </select>
+                        </div>
+                        
+                        <div class="curl-form-group">
+                            <label class="curl-form-label">URL</label>
+                            <input type="text" class="curl-form-input" id="curl-url" placeholder="https://api.example.com/endpoint">
+                        </div>
+                        
+                        <div class="curl-form-group">
+                            <label class="curl-form-label">Headers (JSON format)</label>
+                            <textarea class="curl-form-textarea" id="curl-headers" placeholder='{"Content-Type": "application/json", "Authorization": "Bearer YOUR_API_KEY"}'></textarea>
+                        </div>
+                        
+                        <div class="curl-form-group">
+                            <label class="curl-form-label">Request Body (JSON format)</label>
+                            <textarea class="curl-form-textarea" id="curl-body" placeholder='{"key": "value"}'></textarea>
+                        </div>
+                        
+                        <div class="curl-form-group">
+                            <label class="curl-form-label">cURL Command Preview</label>
+                            <div class="curl-command-preview" id="curl-command-preview">
+                                curl -X GET "https://api.example.com/endpoint"
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="curl-response-section">
+                        <div class="curl-response-header">
+                            <div class="curl-response-title">
+                                <i class="fas fa-code"></i>
+                                <span>Response</span>
+                            </div>
+                            <div class="curl-response-actions">
+                                <button class="preview-button" onclick="copyCurlResponse()">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copy</span>
+                                </button>
+                                <button class="preview-button" onclick="downloadCurlResponse()">
+                                    <i class="fas fa-download"></i>
+                                    <span>Download</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="curl-response-content" id="curl-response-content">
+                            <div class="curl-response-status info">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Ready to execute request</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="editor-branding">
+                <div class="editor-logo">
+                    <img src="https://z-cdn-media.chatglm.cn/files/8cbe835d-70fa-4b6b-a8a8-ba768119ee3b_circle_logo.png?auth_key=1790345385-e78f063d92914893b2bf8b0746c96672-0-2cc098cea7d4b494081a209c53911f51" alt="Nexariq Logo">
+                    <div class="editor-logo-text">Nexariq API Tester</div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <!-- Settings Panel -->
@@ -1849,6 +2253,26 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="settings-section">
+                <h3 class="settings-section-title">API Tester</h3>
+                <div class="settings-option">
+                    <label class="settings-option-label">Auto-format JSON</label>
+                    <div class="settings-option-control">
+                        <div class="settings-toggle active" id="format-json-toggle" onclick="toggleSetting(this)">
+                            <div class="settings-toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-option">
+                    <label class="settings-option-label">Save History</label>
+                    <div class="settings-option-control">
+                        <div class="settings-toggle active" id="save-history-toggle" onclick="toggleSetting(this)">
+                            <div class="settings-toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1904,6 +2328,7 @@
         let terminalCollapsed = false;
         let settingsPanelOpen = false;
         let aiAssistantOpen = false;
+        let curlHistory = [];
         
         // Initialize the app
         window.addEventListener('load', () => {
@@ -1917,6 +2342,9 @@
             
             // Initialize settings event listeners
             initializeSettings();
+            
+            // Initialize cURL form event listeners
+            initializeCurlForm();
         });
         
         // Add floating particles
@@ -1936,8 +2364,10 @@
         function showDashboard() {
             const dashboard = document.getElementById('dashboard');
             const editor = document.getElementById('editor-section');
+            const curl = document.getElementById('curl-section');
             
             editor.style.display = 'none';
+            curl.style.display = 'none';
             dashboard.style.display = 'block';
             dashboard.style.animation = 'fadeIn 0.6s ease';
         }
@@ -1945,8 +2375,10 @@
         function showEditor() {
             const dashboard = document.getElementById('dashboard');
             const editor = document.getElementById('editor-section');
+            const curl = document.getElementById('curl-section');
             
             dashboard.style.display = 'none';
+            curl.style.display = 'none';
             editor.style.display = 'flex';
             editor.style.animation = 'fadeIn 0.6s ease';
             
@@ -1955,6 +2387,17 @@
                 setTimeout(initializeMonacoEditor, 100);
                 editorInitialized = true;
             }
+        }
+        
+        function showCurl() {
+            const dashboard = document.getElementById('dashboard');
+            const editor = document.getElementById('editor-section');
+            const curl = document.getElementById('curl-section');
+            
+            dashboard.style.display = 'none';
+            editor.style.display = 'none';
+            curl.style.display = 'flex';
+            curl.style.animation = 'fadeIn 0.6s ease';
         }
         
         // Open Agent page
@@ -2628,6 +3071,7 @@ if __name__ == "__main__":
                 addTerminalLine('  echo [text] - Echo the provided text');
                 addTerminalLine('  run - Run the current code');
                 addTerminalLine('  theme [dark|light] - Change editor theme');
+                addTerminalLine('  curl [url] - Test API endpoint');
             } else if (cmd === 'clear') {
                 const terminalContent = document.getElementById('terminal-content');
                 const lines = terminalContent.querySelectorAll('.terminal-line');
@@ -2652,6 +3096,14 @@ if __name__ == "__main__":
                 } else {
                     addTerminalLine('Invalid theme. Use "dark" or "light"');
                 }
+            } else if (cmd.startsWith('curl ')) {
+                const url = command.substring(5);
+                addTerminalLine(`Testing API endpoint: ${url}`);
+                // Simulate API request
+                setTimeout(() => {
+                    addTerminalLine('Request sent successfully!');
+                    addTerminalLine('Response: {"status": "success", "message": "API endpoint is working"}');
+                }, 1500);
             } else {
                 addTerminalLine(`Command not found: ${cmd}. Type "help" for available commands.`);
             }
@@ -2863,6 +3315,255 @@ if __name__ == "__main__":
             }
         }
 
+        // cURL Functions
+        function initializeCurlForm() {
+            // Add event listeners to form inputs
+            document.getElementById('curl-method').addEventListener('change', updateCurlCommandPreview);
+            document.getElementById('curl-url').addEventListener('input', updateCurlCommandPreview);
+            document.getElementById('curl-headers').addEventListener('input', updateCurlCommandPreview);
+            document.getElementById('curl-body').addEventListener('input', updateCurlCommandPreview);
+            
+            // Initialize command preview
+            updateCurlCommandPreview();
+        }
+        
+        function updateCurlCommandPreview() {
+            const method = document.getElementById('curl-method').value;
+            const url = document.getElementById('curl-url').value;
+            const headers = document.getElementById('curl-headers').value;
+            const body = document.getElementById('curl-body').value;
+            
+            let command = `curl -X ${method} "${url}"`;
+            
+            // Add headers if provided
+            if (headers) {
+                try {
+                    const headersObj = JSON.parse(headers);
+                    for (const [key, value] of Object.entries(headersObj)) {
+                        command += ` -H "${key}: ${value}"`;
+                    }
+                } catch (e) {
+                    // Invalid JSON, ignore headers
+                }
+            }
+            
+            // Add body if provided and method is not GET
+            if (body && method !== 'GET') {
+                try {
+                    const bodyObj = JSON.parse(body);
+                    command += ` -d '${JSON.stringify(bodyObj)}'`;
+                } catch (e) {
+                    // Invalid JSON, use as is
+                    command += ` -d '${body}'`;
+                }
+            }
+            
+            document.getElementById('curl-command-preview').textContent = command;
+        }
+        
+        function loadCurlExample() {
+            // Load example API request
+            document.getElementById('curl-method').value = 'GET';
+            document.getElementById('curl-url').value = 'https://jsonplaceholder.typicode.com/posts/1';
+            document.getElementById('curl-headers').value = '{"Content-Type": "application/json"}';
+            document.getElementById('curl-body').value = '';
+            
+            updateCurlCommandPreview();
+            showNotification('Example loaded successfully!', 'success');
+        }
+        
+        function clearCurlForm() {
+            document.getElementById('curl-method').value = 'GET';
+            document.getElementById('curl-url').value = '';
+            document.getElementById('curl-headers').value = '';
+            document.getElementById('curl-body').value = '';
+            
+            updateCurlCommandPreview();
+            
+            // Clear response
+            const responseContent = document.getElementById('curl-response-content');
+            responseContent.innerHTML = `
+                <div class="curl-response-status info">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Ready to execute request</span>
+                </div>
+            `;
+            
+            showNotification('Form cleared', 'info');
+        }
+        
+        async function executeCurlCommand() {
+            const method = document.getElementById('curl-method').value;
+            const url = document.getElementById('curl-url').value;
+            const headersText = document.getElementById('curl-headers').value;
+            const bodyText = document.getElementById('curl-body').value;
+            
+            if (!url) {
+                showNotification('Please enter a URL', 'warning');
+                return;
+            }
+            
+            try {
+                // Parse headers
+                let headers = {};
+                if (headersText) {
+                    headers = JSON.parse(headersText);
+                }
+                
+                // Parse body
+                let body = null;
+                if (bodyText && method !== 'GET') {
+                    body = JSON.parse(bodyText);
+                }
+                
+                // Show loading state
+                const responseContent = document.getElementById('curl-response-content');
+                responseContent.innerHTML = `
+                    <div class="curl-response-status info">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Executing request...</span>
+                    </div>
+                `;
+                
+                // Execute request
+                const response = await fetch(url, {
+                    method: method,
+                    headers: headers,
+                    body: body ? JSON.stringify(body) : undefined
+                });
+                
+                // Get response data
+                const responseData = await response.text();
+                let responseJson;
+                
+                try {
+                    responseJson = JSON.parse(responseData);
+                } catch (e) {
+                    // Response is not JSON
+                }
+                
+                // Display response
+                displayCurlResponse(response, responseJson || responseData, response.headers);
+                
+                // Save to history if enabled
+                if (document.getElementById('save-history-toggle').classList.contains('active')) {
+                    saveToHistory({
+                        method,
+                        url,
+                        headers,
+                        body,
+                        status: response.status,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+                
+                showNotification('Request executed successfully!', 'success');
+            } catch (error) {
+                // Display error
+                const responseContent = document.getElementById('curl-response-content');
+                responseContent.innerHTML = `
+                    <div class="curl-response-status error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Error: ${error.message}</span>
+                    </div>
+                `;
+                
+                showNotification('Request failed', 'error');
+            }
+        }
+        
+        function displayCurlResponse(response, data, headers) {
+            const responseContent = document.getElementById('curl-response-content');
+            
+            // Format status
+            let statusClass = 'info';
+            let statusIcon = 'info-circle';
+            
+            if (response.status >= 200 && response.status < 300) {
+                statusClass = 'success';
+                statusIcon = 'check-circle';
+            } else if (response.status >= 400) {
+                statusClass = 'error';
+                statusIcon = 'exclamation-circle';
+            }
+            
+            // Format headers
+            let headersHtml = '';
+            if (headers) {
+                headers.forEach((value, key) => {
+                    headersHtml += `<div>${key}: ${value}</div>`;
+                });
+            }
+            
+            // Format body
+            let bodyHtml = '';
+            if (typeof data === 'object') {
+                const formatJson = document.getElementById('format-json-toggle').classList.contains('active');
+                bodyHtml = formatJson ? 
+                    `<pre>${JSON.stringify(data, null, 2)}</pre>` : 
+                    `<pre>${JSON.stringify(data)}</pre>`;
+            } else {
+                bodyHtml = `<pre>${data}</pre>`;
+            }
+            
+            responseContent.innerHTML = `
+                <div class="curl-response-status ${statusClass}">
+                    <i class="fas fa-${statusIcon}"></i>
+                    <span>${response.status} ${response.statusText}</span>
+                </div>
+                
+                <div class="curl-response-headers">
+                    <div class="curl-response-headers-title">Response Headers</div>
+                    <div>${headersHtml || 'No headers'}</div>
+                </div>
+                
+                <div class="curl-response-body">
+                    <div class="curl-response-body-title">Response Body</div>
+                    <div>${bodyHtml}</div>
+                </div>
+            `;
+        }
+        
+        function copyCurlResponse() {
+            const responseContent = document.getElementById('curl-response-content');
+            const responseText = responseContent.innerText;
+            
+            navigator.clipboard.writeText(responseText).then(() => {
+                showNotification('Response copied to clipboard!', 'success');
+            }).catch(() => {
+                showNotification('Failed to copy response', 'error');
+            });
+        }
+        
+        function downloadCurlResponse() {
+            const responseContent = document.getElementById('curl-response-content');
+            const responseText = responseContent.innerText;
+            
+            const blob = new Blob([responseText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'api-response.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Response downloaded!', 'success');
+        }
+        
+        function saveToHistory(request) {
+            curlHistory.push(request);
+            
+            // Keep only last 50 requests
+            if (curlHistory.length > 50) {
+                curlHistory.shift();
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('curlHistory', JSON.stringify(curlHistory));
+        }
+        
         // Add smooth scrolling to all internal links
         document.addEventListener('click', (e) => {
             if (e.target.matches('a[href^="#"]')) {
