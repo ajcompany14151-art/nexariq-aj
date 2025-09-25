@@ -1,8 +1,9 @@
 {
   "version": 2,
+  "outputDirectory": "./",
   "builds": [
     {
-      "src": "public/**/*",
+      "src": "**/*.html",
       "use": "@vercel/static"
     },
     {
@@ -13,11 +14,11 @@
   "routes": [
     {
       "src": "/",
-      "dest": "/public/index.html"
+      "dest": "/index.html"
     },
     {
       "src": "/agent",
-      "dest": "/public/agent.html"
+      "dest": "/agent.html"
     },
     {
       "src": "/api/(.*)",
