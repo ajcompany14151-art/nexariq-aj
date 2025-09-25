@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexariq Agent - AI-Powered Development Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-black: #000000;
+            --primary-blue: #00D4FF;
+            --dark-gray: #1A1A1A;
+            --silver: #C0C0C0;
+            --light-gray: #2A2A2A;
+            --darker-gray: #0F0F0F;
+            --card-bg: #121212;
+            --hover-bg: #1E1E1E;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+            --border-color: #333333;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-black);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--darker-gray);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-blue), #0080FF);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary-blue);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Main Container */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 80px);
+        }
+
+        /* Agent Section */
+        .agent-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .section-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--darker-gray);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .back-button {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+            border-color: var(--primary-blue);
+        }
+
+        /* Agent Chat Interface */
+        .agent-container {
+            flex: 1;
+            display: flex;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Single column layout (initial state) */
+        .agent-container.single-column {
+            flex-direction: column;
+        }
+
+        /* Two column layout (after first message) */
+        .agent-container.two-column {
+            flex-direction: row;
+        }
+
+        .chat-panel {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--card-bg);
+            border-right: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .agent-container.single-column .chat-panel {
+            width: 100%;
+            height: 100%;
+            border-right: none;
+        }
+
+        .agent-container.two-column .chat-panel {
+            width: 50%;
+            height: 100%;
+        }
+
+        .agent-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .agent-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-blue), #0080FF);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .agent-info {
+            flex: 1;
+        }
+
+        .agent-name {
+            font-weight: 600;
+        }
+
+        .agent-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--success);
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            max-width: 100%;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            background-color: var(--dark-gray);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            max-width: 80%;
+        }
+
+        .message.user .message-content {
+            background-color: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .message-content pre {
+            background-color: var(--darker-gray);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .message-content code {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        .agent-input-container {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .agent-input {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .agent-input input {
+            flex: 1;
+            background-color: var(--darker-gray);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .agent-input input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .send-button {
+            background-color: var(--primary-blue);
+            color: var(--primary-black);
+            border: none;
+            border-radius: 8px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .send-button:hover {
+            background-color: #00A8E0;
+        }
+
+        /* Preview Panel */
+        .preview-panel {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--card-bg);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .agent-container.single-column .preview-panel {
+            display: none;
+        }
+
+        .agent-container.two-column .preview-panel {
+            width: 50%;
+            height: 100%;
+        }
+
+        .preview-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-title {
+            font-weight: 500;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .preview-button {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .preview-button:hover {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .preview-content {
+            flex: 1;
+            padding: 1rem;
+            overflow: auto;
+        }
+
+        .preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+            background-color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--darker-gray);
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .agent-container.two-column {
+                flex-direction: column;
+            }
+            
+            .agent-container.two-column .chat-panel,
+            .agent-container.two-column .preview-panel {
+                width: 100%;
+                height: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">N</div>
+            <div>
+                <div class="logo-text">Nexariq</div>
+                <div class="tagline">AI-Powered Development at the Speed of Thought</div>
+            </div>
+        </div>
+        <nav>
+            <a href="index.html">Dashboard</a>
+            <a href="#">Projects</a>
+            <a href="#">Templates</a>
+            <a href="#">Documentation</a>
+        </nav>
+        <div class="user-profile">
+            <div class="user-avatar">JD</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Agent Section -->
+        <section id="agent-section" class="agent-section">
+            <div class="section-header">
+                <div>
+                    <a href="index.html" class="back-button">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back to Dashboard</span>
+                    </a>
+                </div>
+                <div>
+                    <h2 class="section-title">Nexariq Agent</h2>
+                    <p class="section-subtitle">Powered by Claude Sonnet-4 (Lynxa-Pro)</p>
+                </div>
+            </div>
+            
+            <div class="agent-container single-column" id="agent-container">
+                <div class="chat-panel">
+                    <div class="agent-header">
+                        <div class="agent-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="agent-info">
+                            <div class="agent-name">Lynxa-Pro Assistant</div>
+                            <div class="agent-status">
+                                <span class="status-indicator"></span>
+                                <span>Online</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-container" id="chat-container">
+                        <div class="message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>Hello! I'm your Nexariq AI assistant. I can help you with code generation, debugging, optimization, and answering your technical questions.</p>
+                                <p>What would you like to work on today? I can create code snippets, build complete web pages, or help you solve coding challenges.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="agent-input-container">
+                        <div class="agent-input">
+                            <input type="text" id="agent-input" placeholder="Type your message here..." onkeypress="handleKeyPress(event)">
+                            <button class="send-button" onclick="sendMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="preview-panel">
+                    <div class="preview-header">
+                        <div class="preview-title">Live Preview</div>
+                        <div class="preview-actions">
+                            <button class="preview-button" onclick="refreshPreview()">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>Refresh</span>
+                            </button>
+                            <button class="preview-button" onclick="toggleFullscreen()">
+                                <i class="fas fa-expand"></i>
+                                <span>Full Screen</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="preview-content">
+                        <iframe class="preview-iframe" id="preview-iframe"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2023 Nexariq by AJ STUDIOZ. All rights reserved.</p>
+        <p>Democratizing web development through intelligent, agentic AI assistance.</p>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const agentContainer = document.getElementById('agent-container');
+        const chatContainer = document.getElementById('chat-container');
+        const agentInput = document.getElementById('agent-input');
+        const previewIframe = document.getElementById('preview-iframe');
+
+        // Track if this is the first user message
+        let firstMessageSent = false;
+
+        // Code templates
+        const codeTemplates = {
+            html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexariq Generated Page</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0f0f0f;
+            color: #ffffff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            background: linear-gradient(135deg, #00D4FF, #0080FF);
+            padding: 1rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        .content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid #333;
+        }
+        .card h3 {
+            color: #00D4FF;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Nexariq</h1>
+    </header>
+    <div class="container">
+        <div class="content">
+            <div class="card">
+                <h3>AI-Powered Development</h3>
+                <p>Create stunning web applications with the help of our intelligent assistant.</p>
+            </div>
+            <div class="card">
+                <h3>Real-time Preview</h3>
+                <p>See your changes instantly with our integrated live preview feature.</p>
+            </div>
+            <div class="card">
+                <h3>Code Optimization</h3>
+                <p>Get suggestions to improve your code's performance and readability.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>`,
+            css: `/* Modern Dark Theme */
+:root {
+    --primary: #00D4FF;
+    --secondary: #0080FF;
+    --dark: #0f0f0f;
+    --darker: #1a1a1a;
+    --light: #ffffff;
+    --gray: #333333;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--dark);
+    color: var(--light);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    padding: 2rem 0;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+h1 {
+    margin: 0;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.card {
+    background-color: var(--darker);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid var(--gray);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: var(--dark);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+}`,
+            javascript: `// Interactive Features for Nexariq Page
+document.addEventListener('DOMContentLoaded', function() {
+    // Add smooth scrolling for anchor links
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Add animation to cards on scroll
+    const cards = document.querySelectorAll('.card');
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(card);
+    });
+
+    // Theme toggle functionality
+    const themeToggle = document.createElement('button');
+    themeToggle.textContent = 'Toggle Theme';
+    themeToggle.className = 'btn';
+    themeToggle.style.position = 'fixed';
+    themeToggle.style.top = '20px';
+    themeToggle.style.right = '20px';
+    themeToggle.style.zIndex = '1000';
+
+    themeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('light-theme');
+        if (document.body.classList.contains('light-theme')) {
+            document.body.style.backgroundColor = '#f5f5f5';
+            document.body.style.color = '#333';
+        } else {
+            document.body.style.backgroundColor = '#0f0f0f';
+            document.body.style.color = '#fff';
+        }
+    });
+
+    document.body.appendChild(themeToggle);
+});`,
+            react: `import React, { useState, useEffect } from 'react';
+import './App.css';
+
+const Card = ({ title, content, index }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, index * 200);
+    return () => clearTimeout(timer);
+  }, [index]);
+
+  return (
+    <div className={\`card \${isVisible ? 'visible' : ''}\`}>
+      <h3>{title}</h3>
+      <p>{content}</p>
+    </div>
+  );
+};
+
+const App = () => {
+  const [darkMode, setDarkMode] = useState(true);
+
+  const cards = [
+    {
+      title: 'AI-Powered Development',
+      content: 'Create stunning web applications with the help of our intelligent assistant.'
+    },
+    {
+      title: 'Real-time Preview',
+      content: 'See your changes instantly with our integrated live preview feature.'
+    },
+    {
+      title: 'Code Optimization',
+      content: 'Get suggestions to improve your code\\'s performance and readability.'
+    }
+  ];
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+  };
+
+  return (
+    <div className={\`app \${darkMode ? 'dark' : 'light'}\`}>
+      <header>
+        <h1>Welcome to Nexariq</h1>
+        <button className="theme-toggle" onClick={toggleTheme}>
+          {darkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
+      </header>
+      <div className="container">
+        <div className="content">
+          {cards.map((card, index) => (
+            <Card
+              key={index}
+              title={card.title}
+              content={card.content}
+              index={index}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;`
+        };
+
+        // Function to add a message to the chat
+        function addMessage(content, isUser = false, code = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            if (isUser) {
+                messageDiv.classList.add('user');
+            }
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.classList.add('message-avatar');
+            avatarDiv.innerHTML = isUser ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('message-content');
+            
+            if (code) {
+                contentDiv.innerHTML = `<p>${content}</p><pre><code>${escapeHtml(code)}</code></pre>`;
+            } else {
+                contentDiv.innerHTML = `<p>${content}</p>`;
+            }
+            
+            messageDiv.appendChild(avatarDiv);
+            messageDiv.appendChild(contentDiv);
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Helper function to escape HTML
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Function to handle sending a message
+        function sendMessage() {
+            const message = agentInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                agentInput.value = '';
+                
+                // If this is the first message, switch to two-column layout
+                if (!firstMessageSent) {
+                    agentContainer.classList.remove('single-column');
+                    agentContainer.classList.add('two-column');
+                    firstMessageSent = true;
+                }
+                
+                // Simulate AI response after a short delay
+                setTimeout(() => {
+                    let response = "";
+                    let code = null;
+                    
+                    // Determine response based on user input
+                    if (message.toLowerCase().includes('html')) {
+                        response = "I've created a responsive HTML page for you. Here's the code:";
+                        code = codeTemplates.html;
+                    } else if (message.toLowerCase().includes('css')) {
+                        response = "Here's some CSS to style your page with a modern, dark theme:";
+                        code = codeTemplates.css;
+                    } else if (message.toLowerCase().includes('javascript') || message.toLowerCase().includes('js')) {
+                        response = "I've added some JavaScript functionality to make your page interactive:";
+                        code = codeTemplates.javascript;
+                    } else if (message.toLowerCase().includes('react')) {
+                        response = "Here's a React component that implements the functionality you requested:";
+                        code = codeTemplates.react;
+                    } else {
+                        response = "I understand you're looking for help with your project. I can generate HTML, CSS, JavaScript, or React code for you. What specifically would you like me to create?";
+                    }
+                    
+                    addMessage(response, false, code);
+                    
+                    // Update preview if code was generated
+                    if (code) {
+                        updatePreview(code);
+                    }
+                }, 1000);
+            }
+        }
+
+        // Function to update the preview iframe
+        function updatePreview(code) {
+            previewIframe.srcdoc = code;
+        }
+
+        // Function to handle key press in input
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Function to refresh the preview
+        function refreshPreview() {
+            if (previewIframe.srcdoc) {
+                previewIframe.contentWindow.location.reload();
+            }
+        }
+
+        // Function to toggle fullscreen for preview
+        function toggleFullscreen() {
+            if (previewIframe.requestFullscreen) {
+                previewIframe.requestFullscreen();
+            } else if (previewIframe.webkitRequestFullscreen) {
+                previewIframe.webkitRequestFullscreen();
+            } else if (previewIframe.mozRequestFullScreen) {
+                previewIframe.mozRequestFullScreen();
+            } else if (previewIframe.msRequestFullscreen) {
+                previewIframe.msRequestFullscreen();
+            }
+        }
+
+        // Initial welcome message with example
+        setTimeout(() => {
+            addMessage("Try asking me to create a webpage, style it with CSS, add JavaScript functionality, or even build a React component!", false);
+        }, 1500);
+    </script>
+</body>
+</html>
