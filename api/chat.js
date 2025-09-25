@@ -1,12 +1,17 @@
-const Anthropic = require('@anthropic-ai/sdk');
-
 export default async function handler(req, res) {
+  // Log the request
+  console.log('Request received:', req.method);
+  console.log('Headers:', req.headers);
+  console.log('Body:', req.body);
+  
+  // Check environment variable
+  console.log('API Key available:', !!process.env.CLAUDE_API_KEY);
+  
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-  // Handle preflight requests
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -15,34 +20,37 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { message } = req.body;
-
-  if (!message) {
-    return res.status(400).json({ error: 'Message is required' });
-  }
-
   try {
-    // Check if API key is available
-    if (!process.env.CLAUDE_API_KEY) {
-      console.error('Claude API key is not configured');
-      return res.status(500).json({ error: 'API key not configured' });
+    const { message } = req.body;
+    
+    if (!message) {
+      return res.status(400).json({ error: 'Message is required' });
     }
 
+    // Simple response for testing
+    return res.status(200).json({ 
+      response: `You said: "${message}". This is a test response.` 
+    });
+    
+    // Uncomment the following once the basic endpoint works
+    /*
+    const Anthropic = require('@anthropic-ai/sdk');
     const anthropic = new Anthropic({
       apiKey: process.env.CLAUDE_API_KEY,
     });
 
     const response = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 4000, // Increased for better responses
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1024,
       messages: [{ role: 'user', content: message }],
     });
 
-    const responseText = response.content[0].text;
-    res.status(200).json({ response: responseText });
+    return res.status(200).json({ response: response.content[0].text });
+    */
+    
   } catch (error) {
-    console.error('Error calling Claude API:', error);
-    res.status(500).json({ 
+    console.error('Error:', error);
+    return res.status(500).json({ 
       error: 'Failed to process request',
       details: error.message 
     });
