@@ -1,32 +1,19 @@
 {
   "name": "nexariq-agent",
   "version": "1.0.0",
-  "description": "AI-Powered Development Assistant",
-  "main": "index.html",
+  "description": "AI-powered development assistant with Claude API integration",
+  "main": "api/chat.js",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "echo 'No build step required'",
+    "start": "vercel dev",
     "deploy": "vercel --prod",
-    "start": "vercel dev"
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
-    "node-fetch": "^2.6.7"
+    "@anthropic-ai/sdk": "^0.27.1"
   },
   "devDependencies": {
-    "vercel": "^32.3.0"
+    "vercel": "^32.0.0"
   },
-  "keywords": [
-    "ai",
-    "development",
-    "assistant",
-    "claude",
-    "anthropic",
-    "vercel"
-  ],
   "author": "AJ STUDIOZ",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yourusername/nexariq-agent.git"
-  }
+  "license": "MIT"
 }
